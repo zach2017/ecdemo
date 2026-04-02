@@ -1,15 +1,20 @@
 # =============================================================================
 # Elastic Certified Engineer — Exam Practice Lab
 # =============================================================================
-# INSECURE DEV MODE — No TLS, no certs, no auth. Just works.
+# Single-node | Security ON | No TLS | No certs | API keys enabled
 #
+#   docker compose down -v
 #   docker compose up -d
-#   ./scripts/00-setup.sh
+#   # wait ~90s then open http://localhost:5601
+#   # login: elastic / examlab2026
 #
-# Requirements: Docker Desktop with 4GB+ RAM allocated
+# Requirements: Docker Desktop with 4GB+ RAM
 # =============================================================================
 
 services:
+  # ---------------------------------------------------------------------------
+  # Elasticsearch — single node, security on, zero TLS
+  # ---------------------------------------------------------------------------
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
     container_name: es01
@@ -17,9 +22,12 @@ services:
       - node.name=es01
       - cluster.name=exam-lab
       - discovery.type=single-node
+      - node.attr.zone=zone-a
+      - node.attr.temp=hot
+      # Security ON — but no TLS (dev mode)
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=false
-      - ELASTIC_PASSWORD=examlab2026
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-examlab2026}
       - xpack.license.self_generated.type=trial
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       - path.repo=/usr/share/elasticsearch/backups
@@ -36,29 +44,61 @@ services:
       interval: 10s
       timeout: 5s
       retries: 30
-      start_period: 30s
+      start_period: 40s
     mem_limit: 2g
     restart: unless-stopped
 
+  # ---------------------------------------------------------------------------
+  # Setup — runs once: sets kibana_system password, then exits
+  # ---------------------------------------------------------------------------
+  setup:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+    container_name: es-setup
+    depends_on:
+      es01:
+        condition: service_healthy
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-examlab2026}
+    networks:
+      - elastic
+    command: >
+      bash -c '
+        echo "Setting kibana_system password..."
+        until curl -s -u "elastic:$${ELASTIC_PASSWORD}" http://es01:9200 | grep -q "cluster_name"; do
+          sleep 2
+        done
+        curl -s -u "elastic:$${ELASTIC_PASSWORD}" -X POST http://es01:9200/_security/user/kibana_system/_password \
+          -H "Content-Type: application/json" \
+          -d "{\"password\":\"$${ELASTIC_PASSWORD}\"}"
+        echo ""
+        echo "Done. kibana_system password set."
+      '
 
+  # ---------------------------------------------------------------------------
+  # Kibana — connects with kibana_system user
+  # ---------------------------------------------------------------------------
   kibana:
     image: docker.elastic.co/kibana/kibana:8.18.0
     container_name: kibana
+    depends_on:
+      es01:
+        condition: service_healthy
+      setup:
+        condition: service_completed_successfully
     environment:
       - ELASTICSEARCH_HOSTS=http://es01:9200
-      - xpack.security.enabled=false
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD:-examlab2026}
+      - xpack.security.enabled=true
+      - xpack.encryptedSavedObjects.encryptionKey=a7s3R82kPx9sL4z2Gd5lSn0bHtkXy123
     ports:
       - "5601:5601"
     networks:
       - elastic
-    depends_on:
-      es01:
-        condition: service_healthy
     mem_limit: 1g
 
 volumes:
   es01-data:
-  es02-data:
   es-backups:
 
 networks:

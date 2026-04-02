@@ -133,7 +133,7 @@ run_es GET "/blog-posts/_doc/post-100"
 
 explain "Check if a document exists (HEAD request returns status code only)"
 echo -e "${DIM}HEAD /blog-posts/_doc/post-100${NC}"
-HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X HEAD "$ES/blog-posts/_doc/post-100")
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -u "$AUTH" -X HEAD "$ES/blog-posts/_doc/post-100")
 echo -e "  HTTP Status: ${GREEN}${HTTP_CODE}${NC} (200 = exists, 404 = not found)"
 
 explain "Get multiple documents at once with _mget"

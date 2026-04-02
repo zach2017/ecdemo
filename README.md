@@ -1,116 +1,96 @@
 # Elastic Certified Engineer — Exam Practice Lab
 
-Insecure dev-mode Docker setup for hands-on practice of every exam topic. No passwords, no TLS, no certs. Just works.
+Single-node Elasticsearch + Kibana with security ON, API keys, users/roles — no TLS, no certs.
 
 ## Quick Start
 
 ```bash
 cd eck-exam-lab
 
-# Clean start (important if you had a previous attempt)
-docker compose down -v
+docker compose down -v        # always start clean
+docker compose up -d          # starts: es-setup → es01 → kibana
 
-# Start 2-node Elasticsearch + Kibana
-docker compose up -d
+# wait ~90 seconds then test
+curl -u elastic:examlab2026 http://localhost:9200
 
-# Wait ~60 seconds, then verify
-curl http://localhost:9200/_cluster/health?pretty
+examlab2026
 
-# Load sample data
+# load sample data
 chmod +x scripts/*.sh
 ./scripts/00-setup.sh
 ```
 
-**Elasticsearch:** http://localhost:9200 (no auth)
-**Kibana:** http://localhost:5601 → Dev Tools (no login)
+| Service | URL | Login |
+|---|---|---|
+| Elasticsearch | http://localhost:9200 | `elastic` / `examlab2026` |
+| Kibana | http://localhost:5601 | `elastic` / `examlab2026` |
+
+## Generate an API Key
+
+```bash
+curl -u elastic:examlab2026 -X POST http://localhost:9200/_security/api_key \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"my-key","expiration":"30d"}'
+
+# Use the "encoded" value from the response:
+curl -H "Authorization: ApiKey <encoded>" http://localhost:9200/_cluster/health
+```
 
 ## Run the Labs
 
 ```bash
 ./scripts/01-index-management.sh     # Indices, mappings, CRUD, aliases
 ./scripts/02-index-templates.sh      # Component + index + dynamic templates
-./scripts/03-ilm-data-streams.sh     # ILM policies, data streams, rollover
+./scripts/03-ilm-data-streams.sh     # ILM policies, data streams
 ./scripts/04-searching.sh            # term, match, bool, runtime fields
-./scripts/05-aggregations.sh         # metric, bucket, pipeline, sub-aggs
-./scripts/06-ingest-pipelines.sh     # grok, dissect, date, script processors
+./scripts/05-aggregations.sh         # metric, bucket, pipeline aggs
+./scripts/06-ingest-pipelines.sh     # grok, dissect, script processors
 ./scripts/07-reindex-enrich.sh       # Reindex, update_by_query, enrich
 ./scripts/08-search-features.sh      # Highlighting, sorting, pagination
 ./scripts/09-cluster-management.sh   # Health, shard allocation, snapshots
-./scripts/10-security.sh             # Users, roles, RBAC (reference mode)
+./scripts/10-security.sh             # Users, roles, API keys, RBAC
+./scripts/11-cleanup.sh              # Reset everything
 ```
 
-Reset and redo:
-```bash
-./scripts/11-cleanup.sh && ./scripts/00-setup.sh
+## Architecture
+
+```
+es-setup (sets kibana_system password → exits)
+    ↓
+  es01 (single-node, security ON, no TLS)
+    ↓
+  kibana (connects as kibana_system)
 ```
 
-## What's in the Box
-
-**Cluster:** 2 Elasticsearch nodes (es01=hot/zone-a, es02=warm/zone-b) + Kibana
-**Version:** Elasticsearch & Kibana 8.18.0
-**Security:** Disabled (for zero-friction learning)
-
-**Sample data:**
-| Index | Docs | Use |
-|---|---|---|
-| products | 15 | E-commerce catalog — search, aggs, reindex, enrich |
-| weblogs | 20 | Server logs — time-series, ILM, pipelines |
-| suppliers | 8 | Lookup table — enrich policy practice |
+- **Security:** ON (users, roles, API keys all work)
+- **HTTP TLS:** OFF (plain `curl` without `-k`)
+- **Transport TLS:** Not needed (single-node)
+- **License:** Trial (30 days of all features)
 
 ## Requirements
 
-- Docker Desktop with **4GB+ RAM** (Settings → Resources)
-- macOS, Linux, or Windows with WSL2
-
-**Linux only:** `sudo sysctl -w vm.max_map_count=262144`
+- Docker Desktop with **4GB+ RAM**
+- macOS / Linux / Windows WSL2
 
 ## Troubleshooting
 
+```bash
+# Nuclear reset
+docker compose down -v && docker compose up -d
+
+# Check ES logs
+docker compose logs es01
+
+# Check setup container
+docker compose logs setup
+
+# Check all containers
+docker compose ps
+```
+
 | Problem | Fix |
 |---|---|
-| Containers won't start | `docker compose down -v` then `docker compose up -d` |
-| Exit code 137 (OOMKilled) | Give Docker more RAM (6GB recommended) |
-| Port 9200 already in use | `docker ps` and stop other ES containers |
-| `curl: (7) connection refused` | Wait 60s. Check: `docker compose logs es01` |
-| Kibana not ready | ES must start first. Give it 90 seconds |
-
-## Nuclear reset
-```bash
-docker compose down -v    # destroys ALL data
-docker compose up -d
-./scripts/00-setup.sh
-```
-
-## Enabling Security (for Lab 10)
-
-To practice security APIs, switch es01 to single-node mode with security:
-
-```bash
-docker compose down -v
-```
-
-Edit `docker-compose.yml` — change es01 environment to:
-```yaml
-  - discovery.type=single-node
-  - xpack.security.enabled=true
-  - ELASTIC_PASSWORD=examlab2026
-```
-
-Comment out the entire `es02` service, then:
-```bash
-docker compose up -d es01 kibana
-
-# Set kibana_system password
-curl -u elastic:examlab2026 -X POST http://localhost:9200/_security/user/kibana_system/_password \
-  -H 'Content-Type: application/json' -d '{"password":"examlab2026"}'
-```
-
-Add to kibana environment in docker-compose.yml:
-```yaml
-  - ELASTICSEARCH_USERNAME=kibana_system
-  - ELASTICSEARCH_PASSWORD=examlab2026
-  - xpack.security.enabled=true
-```
-
-Then restart kibana: `docker compose restart kibana`
-# ecdemo
+| Exit code 78 | `docker compose down -v` (clears stale data) |
+| Exit code 137 | Give Docker more RAM (6GB) |
+| Kibana not ready | Wait 90s. Setup container must finish first |
+| 401 Unauthorized | Password is `examlab2026` (check .env) |
