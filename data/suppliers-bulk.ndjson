@@ -1,0 +1,16 @@
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"TechDistro Inc","contact_email":"sales@techdistro.com","phone":"+1-555-0101","tier":"gold","region":"North America","annual_volume":250000}
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"AsiaImports Ltd","contact_email":"info@asiaimports.co.jp","phone":"+81-3-1234-5678","tier":"silver","region":"Asia Pacific","annual_volume":180000}
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"SportGear Direct","contact_email":"orders@sportgear.com","phone":"+1-555-0202","tier":"bronze","region":"North America","annual_volume":75000}
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"FitWorld Co","contact_email":"export@fitworld.cn","phone":"+86-21-8888-9999","tier":"silver","region":"Asia Pacific","annual_volume":320000}
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"HomeGoods Plus","contact_email":"wholesale@homegoods.com","phone":"+1-555-0303","tier":"gold","region":"North America","annual_volume":410000}
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"BookWorld Distributors","contact_email":"trade@bookworld.co.uk","phone":"+44-20-7946-0958","tier":"bronze","region":"Europe","annual_volume":95000}
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"OutdoorGear Ltd","contact_email":"hello@outdoorgear.com.au","phone":"+61-2-9876-5432","tier":"bronze","region":"Asia Pacific","annual_volume":60000}
+{"index":{"_index":"suppliers"}}
+{"supplier_name":"TravelGear Co","contact_email":"bulk@travelgear.com","phone":"+1-555-0404","tier":"silver","region":"North America","annual_volume":145000}

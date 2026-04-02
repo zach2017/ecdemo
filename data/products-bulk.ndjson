@@ -1,0 +1,30 @@
+{"index":{"_index":"products","_id":"1"}}
+{"name":"Wireless Bluetooth Headphones","category":"Electronics","brand":"SoundMax","price":79.99,"rating":4.5,"in_stock":true,"tags":["audio","wireless","bluetooth"],"description":"Premium noise-cancelling wireless headphones with 30-hour battery life","created_at":"2026-01-15T10:30:00Z","sold_count":1250,"supplier":{"name":"TechDistro Inc","country":"US"}}
+{"index":{"_index":"products","_id":"2"}}
+{"name":"Organic Green Tea - 100 Bags","category":"Food & Beverage","brand":"NatureBrew","price":12.49,"rating":4.8,"in_stock":true,"tags":["organic","tea","healthy"],"description":"Premium Japanese organic green tea, individually wrapped sachets","created_at":"2026-02-01T08:00:00Z","sold_count":3420,"supplier":{"name":"AsiaImports Ltd","country":"JP"}}
+{"index":{"_index":"products","_id":"3"}}
+{"name":"Running Shoes Pro X","category":"Sports","brand":"SwiftStep","price":129.00,"rating":4.3,"in_stock":true,"tags":["running","shoes","sports"],"description":"Lightweight carbon-plate running shoes for marathon training","created_at":"2025-11-20T14:15:00Z","sold_count":890,"supplier":{"name":"SportGear Direct","country":"US"}}
+{"index":{"_index":"products","_id":"4"}}
+{"name":"Mechanical Keyboard RGB","category":"Electronics","brand":"TypeMaster","price":149.99,"rating":4.7,"in_stock":false,"tags":["keyboard","mechanical","gaming"],"description":"Cherry MX Blue switches with per-key RGB backlighting and USB-C","created_at":"2025-12-05T09:45:00Z","sold_count":2100,"supplier":{"name":"TechDistro Inc","country":"US"}}
+{"index":{"_index":"products","_id":"5"}}
+{"name":"Yoga Mat Premium 6mm","category":"Sports","brand":"ZenFlex","price":34.99,"rating":4.6,"in_stock":true,"tags":["yoga","fitness","mat"],"description":"Non-slip eco-friendly TPE yoga mat with alignment markers","created_at":"2026-01-08T11:20:00Z","sold_count":4500,"supplier":{"name":"FitWorld Co","country":"CN"}}
+{"index":{"_index":"products","_id":"6"}}
+{"name":"Stainless Steel Water Bottle","category":"Kitchen","brand":"HydroLife","price":24.99,"rating":4.4,"in_stock":true,"tags":["bottle","eco","reusable"],"description":"Double-wall vacuum insulated, keeps drinks cold 24hrs or hot 12hrs","created_at":"2025-10-30T16:00:00Z","sold_count":6780,"supplier":{"name":"HomeGoods Plus","country":"US"}}
+{"index":{"_index":"products","_id":"7"}}
+{"name":"Python Programming Book 4th Ed","category":"Books","brand":"TechPress","price":44.99,"rating":4.9,"in_stock":true,"tags":["programming","python","education"],"description":"Comprehensive guide to Python 3.12 with exercises and real-world projects","created_at":"2026-03-01T07:00:00Z","sold_count":1890,"supplier":{"name":"BookWorld Distributors","country":"UK"}}
+{"index":{"_index":"products","_id":"8"}}
+{"name":"Espresso Machine Deluxe","category":"Kitchen","brand":"BrewMaster","price":399.00,"rating":4.2,"in_stock":true,"tags":["coffee","espresso","kitchen"],"description":"15-bar pump espresso machine with built-in grinder and milk frother","created_at":"2025-09-15T13:30:00Z","sold_count":560,"supplier":{"name":"HomeGoods Plus","country":"US"}}
+{"index":{"_index":"products","_id":"9"}}
+{"name":"Wireless Mouse Ergonomic","category":"Electronics","brand":"TypeMaster","price":39.99,"rating":4.1,"in_stock":true,"tags":["mouse","ergonomic","wireless"],"description":"Vertical ergonomic mouse with adjustable DPI and silent clicks","created_at":"2026-02-14T10:00:00Z","sold_count":3200,"supplier":{"name":"TechDistro Inc","country":"US"}}
+{"index":{"_index":"products","_id":"10"}}
+{"name":"Camping Tent 4-Person","category":"Sports","brand":"WildTrail","price":189.00,"rating":4.0,"in_stock":false,"tags":["camping","outdoor","tent"],"description":"Waterproof 3-season dome tent with quick-pitch system and vestibule","created_at":"2025-08-22T12:00:00Z","sold_count":320,"supplier":{"name":"OutdoorGear Ltd","country":"AU"}}
+{"index":{"_index":"products","_id":"11"}}
+{"name":"LED Desk Lamp Smart","category":"Electronics","brand":"BrightLife","price":54.99,"rating":4.6,"in_stock":true,"tags":["lamp","smart","led"],"description":"App-controlled desk lamp with adjustable color temperature 2700K-6500K","created_at":"2026-01-20T15:45:00Z","sold_count":2890,"supplier":{"name":"TechDistro Inc","country":"US"}}
+{"index":{"_index":"products","_id":"12"}}
+{"name":"Protein Powder Vanilla 2kg","category":"Food & Beverage","brand":"FuelUp","price":49.99,"rating":4.3,"in_stock":true,"tags":["protein","fitness","supplement"],"description":"Whey isolate protein powder, 25g protein per serving, low sugar","created_at":"2025-12-10T08:30:00Z","sold_count":5600,"supplier":{"name":"FitWorld Co","country":"CN"}}
+{"index":{"_index":"products","_id":"13"}}
+{"name":"Noise Cancelling Earbuds","category":"Electronics","brand":"SoundMax","price":59.99,"rating":4.4,"in_stock":true,"tags":["audio","earbuds","wireless"],"description":"True wireless earbuds with active noise cancellation and 8hr battery","created_at":"2026-03-10T09:00:00Z","sold_count":4100,"supplier":{"name":"TechDistro Inc","country":"US"}}
+{"index":{"_index":"products","_id":"14"}}
+{"name":"Cast Iron Skillet 12 inch","category":"Kitchen","brand":"IronChef","price":42.00,"rating":4.8,"in_stock":true,"tags":["cooking","cast-iron","skillet"],"description":"Pre-seasoned cast iron skillet, oven safe to 500°F, lifetime warranty","created_at":"2025-07-04T10:00:00Z","sold_count":7200,"supplier":{"name":"HomeGoods Plus","country":"US"}}
+{"index":{"_index":"products","_id":"15"}}
+{"name":"Backpack Laptop 17 inch","category":"Accessories","brand":"CarryAll","price":69.99,"rating":4.5,"in_stock":true,"tags":["backpack","laptop","travel"],"description":"Water-resistant laptop backpack with USB charging port and anti-theft zip","created_at":"2026-02-28T11:00:00Z","sold_count":3350,"supplier":{"name":"TravelGear Co","country":"US"}}

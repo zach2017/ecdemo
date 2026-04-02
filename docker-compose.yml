@@ -1,0 +1,65 @@
+# =============================================================================
+# Elastic Certified Engineer — Exam Practice Lab
+# =============================================================================
+# INSECURE DEV MODE — No TLS, no certs, no auth. Just works.
+#
+#   docker compose up -d
+#   ./scripts/00-setup.sh
+#
+# Requirements: Docker Desktop with 4GB+ RAM allocated
+# =============================================================================
+
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=exam-lab
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - ELASTIC_PASSWORD=examlab2026
+      - xpack.license.self_generated.type=trial
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - path.repo=/usr/share/elasticsearch/backups
+      - ingest.geoip.downloader.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - es01-data:/usr/share/elasticsearch/data
+      - es-backups:/usr/share/elasticsearch/backups
+    networks:
+      - elastic
+    healthcheck:
+      test: ["CMD-SHELL", "echo"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    mem_limit: 2g
+    restart: unless-stopped
+
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.18.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+      - xpack.security.enabled=false
+    ports:
+      - "5601:5601"
+    networks:
+      - elastic
+    depends_on:
+      es01:
+        condition: service_healthy
+    mem_limit: 1g
+
+volumes:
+  es01-data:
+  es02-data:
+  es-backups:
+
+networks:
+  elastic:

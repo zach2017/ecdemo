@@ -1,0 +1,2 @@
+export ES_URL="https://localhost:9200"
+export API_KEY=""
